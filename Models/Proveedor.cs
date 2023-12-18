@@ -16,6 +16,8 @@ namespace CJPWASM.Models
         [EmailAddress(ErrorMessage = "Teléfono no es válido")]
         public string? Email { get; set; }
         //public bool? EstadoEntidad { get; set; }
+        public DateTime? FechaRegistro { get; set; }
+        public DateTime? FechaModificacion { get; set; }
         public List<Compra>? Compras { get; set; }
     }
 }

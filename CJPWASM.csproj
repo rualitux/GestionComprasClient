@@ -7,8 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Producto\Productos.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.25" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.25" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Producto\Productos.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Producto\Productos.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Productos.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Producto\" />
   </ItemGroup>
 
 </Project>

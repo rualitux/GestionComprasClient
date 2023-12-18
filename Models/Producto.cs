@@ -9,11 +9,10 @@ namespace CJPWASM.Models
 
         [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Precio debe tener máximo 2 decimales")]
         public decimal? CostoEstandar { get; set; }
-        public DateTime? FechaVencimiento { get; set; }
-        //public int? CategoriaId { get; set; }
+        public int? CategoriaId { get; set; }
         //Enumerado? Categoria { get; set; }
         //Enumerado? Presentacion { get; set; }
-        public int? StockTotal { get;}
+        public int? StockTotal { get; set; }
         //public int? StockTotal
         //{
         //    get
@@ -32,7 +31,7 @@ namespace CJPWASM.Models
         //    }
         //}
         public int? StockMinimo { get; set; }
-        public int? EstadoStock { get;}
+        public string? EstadoStock { get; set; }
         //public string? EstadoStock
         //{
         //    get

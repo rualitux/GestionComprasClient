@@ -1,4 +1,5 @@
 global using CJPWASM.Services.ProveedorService;
+using CJPWASM.Services.ProductoService;
 using CJPWASM;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -9,4 +10,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<IProveedorService, ProveedorService>();
+builder.Services.AddScoped<IProductoService, ProductoService>();
+
 await builder.Build().RunAsync();

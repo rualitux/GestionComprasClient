@@ -1,0 +1,54 @@
+﻿@page "/productos"
+@using CJPWASM.Services.ProductoService
+@inject IProductoService ProductoService
+@inject NavigationManager NavigationManager
+<h3>Productos</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Costo Estándar</th>
+            <th>Categoria</th>
+            <th>S. Total</th>
+            <th>S. Seguridad</th>
+            <th>Estado Stock</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ProductoService.Productos)
+        {
+            <tr>
+                <td>@item.Nombre</td>
+                <td>@item.CostoEstandar</td>
+                <td>@item.CategoriaId</td>
+                <td>@item.StockTotal</td>
+                <td>@item.StockMinimo</td>
+                <td>@item.EstadoStock</td>
+                <td>
+                    <button class="btn btn-primary" @onclick="(() =>MostrarProducto(item.Id))"><i class="oi oi-pencil"></i></button>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<button class="btn btn-primary" @onclick="CreateNuevoProducto">Crear Nuevo Producto</button>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await ProductoService.GetProductos();
+    }
+
+    void MostrarProducto(int id)
+    {
+        NavigationManager.NavigateTo($"producto/{id}");
+
+    }
+    void CreateNuevoProducto()
+    {
+        NavigationManager.NavigateTo("/producto");
+    }
+
+}

@@ -12,22 +12,17 @@ namespace CJPWASM.Models
         public int? CantidadRetornada { get; set; }
         [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Precio debe tener máximo 2 decimales")]
         public Decimal? CostoActual { get; set; }
-        public Decimal? SubTotalOrdenado
-        {
-            get { return CostoActual * CantidadOrdenada; }
-        }
-        //public Decimal? SubTotalDiferencia
+        public Decimal? SubTotalOrdenado { get; set; }
+        //public Decimal? SubTotalOrdenado
+        //{
+        //    get { return CostoActual * CantidadOrdenada; }
+        //}
+        public Decimal? SubTotalDiferencia { get; set; }
         //{
         //    get { return DiferenciaPrecio * CantidadRecibida; }
         //}
-        public Decimal? SubTotalRecibido
-        {
-            get { return CostoActual * CantidadRecibida; }
-        }
-        public Decimal? CostoRetornado
-        {
-            get { return CantidadRetornada * CostoActual; }
-        }
+        public Decimal? SubTotalRecibido { get; set; }
+        public Decimal? CostoRetornado { get; set; }
 
         //Decimal? _PrecioProducto
         //{
@@ -61,7 +56,7 @@ namespace CJPWASM.Models
         //}
 
 
-        //public Decimal? DiferenciaPrecio
+        public Decimal? DiferenciaPrecio { get; set; }
         //{
         //    get
         //    {
@@ -91,7 +86,7 @@ namespace CJPWASM.Models
         //    }
         //}
 
-        //public string? EstadoAhorroItem
+        public string? EstadoAhorroItem { get; set; }
         //{
         //    get
         //    {
@@ -104,11 +99,14 @@ namespace CJPWASM.Models
         //        return null;
         //    }
         //}
-
+        public DateTime? FechaExpiracion { get; set; }
+        public DateTime? FechaRegistro { get; set; }
+        public DateTime? FechaModificacion { get; set; }
+        public String? Lote { get; set; }
         public int? CompraId { get; set; }
         [ForeignKey("ProductoId")]
         public int? ProductoId { get; set; }
-        //[JsonIgnore]
-        //public Producto? Producto { get; set; }
+        [JsonIgnore]
+        public Producto? Producto { get; set; }
     }
 }
