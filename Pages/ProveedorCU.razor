@@ -1,0 +1,119 @@
+﻿@page "/proveedor"
+@page "/proveedor/{id:int}"
+@using CJPWASM.Models;
+@inject IProveedorService ProveedorService
+@if (Id == null)
+{<PageTitle>Crear Proveedor</PageTitle>
+        <h3>Crear Nuevo Proveedor</h3>
+}
+else
+    {
+    Console.WriteLine("PageTitle y Editar ID Not null");
+    <PageTitle>Editar @proveedor.RazonSocial</PageTitle>
+    <h3>Editar @proveedor.RazonSocial</h3>
+    }
+    <EditForm Model="proveedor" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator/>
+          <ValidationSummary/>
+        <div class="form-group">
+            <label for="ruc">RUC</label>
+            <InputText id="ruc" @bind-Value="proveedor.RUC" class="form-control"></InputText>
+        <ValidationMessage For="() => proveedor.RUC" />
+        </div>
+         <div>
+            <label for="razonsocial">Razon Social</label>
+        <InputText id="razonsocial" @bind-Value="proveedor.RazonSocial" class="form-control"></InputText>
+        </div>
+    <div>
+        <label for="nombreproveedor">Nombre y Apellido (Representante)</label>
+        <InputText id="nombreproveedor" @bind-Value="proveedor.NombreProveedor" class="form-control"></InputText>
+    </div>
+    <div>
+        <label for="direccion">Direccion</label>
+        <InputText id="direccion" @bind-Value="proveedor.Direccion" class="form-control"></InputText>
+    </div>
+    <div>
+        <label for="telefono">Telefono</label>
+        <InputText id="telefono" @bind-Value="proveedor.Telefono" class="form-control"></InputText>
+        <ValidationMessage For="() => proveedor.Telefono" />
+
+    </div>
+    <div>
+        <label for="email">E-mail</label>
+        <InputText id="email" @bind-Value="proveedor.Email" class="form-control"></InputText>
+        <ValidationMessage For="() => proveedor.Email" />
+
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">@btnText</button>
+    <br />
+    <div>
+        <h4>Bitácora de Compras:</h4>       
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Numero Ref.</th>
+                <th>TotalCompra</th>
+                <th>TotalDiferencia</th>
+                <th>¿Ahorro?</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in proveedor.Compras)
+            {<tr>
+                <td>@item.NumeroReferencia</td>
+                <td>@item.TotalCompra</td>
+                <td>@item.TotalDiferencia</td>
+                <td>@item.EstadoAhorroTotal</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    </EditForm>
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    string btnText = string.Empty;
+    Proveedor proveedor = new Proveedor { Compras = new List<Compra>() };
+    protected override async Task OnInitializedAsync()
+    {
+        btnText = Id == null ? "Crear Proveedor" : "Actualizar Proveedor";
+    }
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id == null)
+        {
+            Console.WriteLine("Entro a OnParametersSetAsyncNULL");      
+
+        }
+        else
+        {
+            Console.WriteLine("Entro al else para golpear GetProveeedorId");
+            Console.WriteLine($"proveedorAntesdeGet{proveedor.Id}");
+            var proveedorawaiteado = await ProveedorService.GetProveedor((int)Id);
+            if (proveedorawaiteado != null)
+            {
+                // Console.WriteLine($"proveedorNoesNull{proveedorawaiteado.RUC}");               
+                Console.WriteLine("ProveedorAwaiteadoNoEsNull");
+                proveedor = proveedorawaiteado;
+            }
+            else Console.WriteLine("ProveedorAwaiteadoNull");
+        }
+    }
+    async Task Guardar()
+    {
+        if (Id == null)
+        {
+           
+            await ProveedorService.CreateProveedor(proveedor);
+        }
+        else
+        {
+            await ProveedorService.UpdateProveedor(proveedor);
+        }
+    }
+}

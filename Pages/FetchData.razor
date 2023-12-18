@@ -1,0 +1,57 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Cod</th>
+                <th>NumEstan</th>
+                <th>Zona(F)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.codigoDerechoAcuicola</td>
+                    <td>@forecast.numEstan</td>
+                    <td>@forecast.zona</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private DerechoAcuicola[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        HttpResponseMessage response = await Http.GetAsync("http://localhost:56073/tables/derecho?select=codigoDerechoAcuicola,numEstan,zona");
+
+        string content = await response.Content.ReadAsStringAsync();
+        forecasts = await Http.GetFromJsonAsync<DerechoAcuicola[]>(content);
+    }
+
+    public class DerechoAcuicola
+    {
+        public int codigoDerechoAcuicola { get; set; }
+
+        public int numEstan { get; set; }
+
+        public string? zona { get; set; }
+
+    }
+}

@@ -1,0 +1,54 @@
+﻿@page "/proveedors"
+@inject IProveedorService ProveedorService
+@inject NavigationManager NavigationManager
+<PageTitle>Proveedores</PageTitle>
+<h3>Proveedors</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Razon Social</th>
+            <th>RUC</th>
+            <th>Nombres</th>
+            <th>Telefono</th>
+            <th>Direccion</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ProveedorService.Proveedors)
+        {
+            <tr>
+                <td>@item.RazonSocial</td>
+                <td>@item.RUC</td>
+                <td>@item.NombreProveedor</td>
+                <td>@item.Telefono</td>
+                <td>@item.Direccion</td>
+                <td>@item.Email</td>
+                <td>
+                    <button class="btn btn-primary" @onclick ="(() =>MostrarProveedor(item.Id))"><i class="oi oi-pencil"></i></button>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<button class="btn btn-primary" @onclick="CreateNuevoProveedor">Crear Nuevo Proveedor</button>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await ProveedorService.GetProveedores();        
+    }
+
+    void MostrarProveedor(int id)
+    {
+        NavigationManager.NavigateTo($"proveedor/{id}");
+
+    }
+    void CreateNuevoProveedor()
+    {
+        NavigationManager.NavigateTo("/proveedor");
+    }
+
+}
