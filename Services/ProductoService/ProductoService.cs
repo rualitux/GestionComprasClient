@@ -35,11 +35,35 @@ namespace CJPWASM.Services.ProductoService
 
         }
         public List<Producto> Productos { get; set; } = new List<Producto>();
+        public List<Enumerado> Categorias { get; set; } = new List<Enumerado>();
+        public List<Enumerado> UnidadMedidas { get; set; } = new List<Enumerado>();
 
         public async Task CreateProducto(Producto producto)
         {
             var result = await _httpClient.PostAsJsonAsync($"{_url}/productos/", producto);
             await SetProductos(result);
+        }
+
+        public async Task GetEnumerados()
+        {
+            var result = await _httpClient.GetFromJsonAsync<List<Enumerado>>($"{_url}/enumerados", _jsonSerializerOptions);
+            List<Enumerado> categoriasLista = new List<Enumerado>();
+            List<Enumerado> unidadMedidaLista = new List<Enumerado>();
+            foreach (var item in result)               
+                {
+                if (item.Padre == (int)EnumeradoTipo.Categoria)
+                {
+                    await Console.Out.WriteLineAsync(JsonSerializer.Serialize<Enumerado>(item));
+                    categoriasLista.Add(item);
+                }
+                if (item.Padre == (int)EnumeradoTipo.UnidadMedida)
+                {
+                    await Console.Out.WriteLineAsync(JsonSerializer.Serialize<Enumerado>(item));
+                    unidadMedidaLista.Add(item);
+                }
+            }
+            Categorias = categoriasLista;
+            UnidadMedidas = unidadMedidaLista;
         }
 
         public async Task<Producto> GetProductoById(int id)
@@ -66,7 +90,8 @@ namespace CJPWASM.Services.ProductoService
 
         public async Task GetProductos()
         {
-            var result = await _httpClient.GetFromJsonAsync<List<Producto>>($"{_url}/productos", _jsonSerializerOptions);
+            var odataQuery = "?$expand=Categoria,UnidadMedida,CompraDetalles,Inventarios";
+            var result = await _httpClient.GetFromJsonAsync<List<Producto>>($"{_url}/productos/{odataQuery}", _jsonSerializerOptions);
             if (result != null)
             {
                 foreach (var item in result)
@@ -95,6 +120,12 @@ namespace CJPWASM.Services.ProductoService
                 await Console.Out.WriteLineAsync(ex.Message);
             }
             _navigationManager.NavigateTo("productos");
+        }
+
+        enum EnumeradoTipo
+        { 
+            Categoria = 1,
+            UnidadMedida=26
         }
 
     }

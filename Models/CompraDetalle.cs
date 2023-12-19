@@ -7,9 +7,12 @@ namespace CJPWASM.Models
     public class CompraDetalle
     {
         public int Id { get; set; }
-        public int? CantidadOrdenada { get; set; }
-        public int? CantidadRecibida { get; set; }
-        public int? CantidadRetornada { get; set; }
+        public string? Estructura { get; set; } //Eg: Caja?? SixPack?? Saco 20 KG???
+        public decimal? MultiplicadorUnidad { get; set; } = 1; //Caja de 6 unidades? Saco de 20.0 kg?
+
+        public decimal? CantidadOrdenada { get; set; }
+        public decimal? CantidadRecibida { get; set; }
+        public decimal? CantidadRetornada { get; set; }
         [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Precio debe tener máximo 2 decimales")]
         public Decimal? CostoActual { get; set; }
         public Decimal? SubTotalOrdenado { get; set; }

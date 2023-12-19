@@ -7,6 +7,8 @@
     <thead>
         <tr>
             <th>Nombre</th>
+            <th>Presentacion</th>
+            <th>U. Medida</th>
             <th>Costo Estándar</th>
             <th>Categoria</th>
             <th>S. Total</th>
@@ -20,8 +22,10 @@
         {
             <tr>
                 <td>@item.Nombre</td>
+                <td>@item.Presentacion</td>
+                <td>@item.UnidadMedida.Valor</td>
                 <td>@item.CostoEstandar</td>
-                <td>@item.CategoriaId</td>
+                <td>@item.Categoria.Valor</td>
                 <td>@item.StockTotal</td>
                 <td>@item.StockMinimo</td>
                 <td>@item.EstadoStock</td>

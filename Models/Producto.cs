@@ -6,13 +6,15 @@ namespace CJPWASM.Models
     {
         public int Id { get; set; }
         public string? Nombre { get; set; }
+        public string? Presentacion { get; set; }
 
         [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Precio debe tener máximo 2 decimales")]
         public decimal? CostoEstandar { get; set; }
-        public int? CategoriaId { get; set; }
-        //Enumerado? Categoria { get; set; }
-        //Enumerado? Presentacion { get; set; }
-        public int? StockTotal { get; set; }
+        public int? CategoriaId { get; set; } = 16;
+        public Enumerado? Categoria { get; set; }
+        public int? UnidadMedidaId { get; set; } = 27;
+        public Enumerado? UnidadMedida { get; set; }
+        public decimal? StockTotal { get; set; }
         //public int? StockTotal
         //{
         //    get
@@ -30,7 +32,7 @@ namespace CJPWASM.Models
         //        return null;
         //    }
         //}
-        public int? StockMinimo { get; set; }
+        public decimal? StockMinimo { get; set; }
         public string? EstadoStock { get; set; }
         //public string? EstadoStock
         //{

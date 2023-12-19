@@ -1,0 +1,52 @@
+﻿@page "/compras"
+@using CJPWASM.Services.CompraService
+@inject ICompraService CompraService
+@inject NavigationManager NavigationManager
+<h3>Compras</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Numero Referencia</th>
+            <th>Proveedor</th>
+            <th>Total (S/.)</th>
+            <th>T. Markup(S/.)</th>
+            <th>¿Ahorro?</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in CompraService.Compras)
+        {
+            <tr>
+                <td>@item.NumeroReferencia</td>
+                <td>@item.Proveedor.RazonSocial</td>
+                <td>@item.TotalCompra</td>
+                <td>@item.TotalDiferencia</td>
+                <td>@item.EstadoAhorroTotal</td>
+                <td>
+                    <button class="btn btn-primary" @onclick="(() =>MostrarCompra(item.Id))"><i class="oi oi-pencil"></i></button>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+<button class="btn btn-primary" @onclick="CreateNuevaCompra">Crear Nueva Compra</button>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await CompraService.GetCompras();
+    }
+
+    void MostrarCompra(int id)
+    {
+        NavigationManager.NavigateTo($"compra/{id}");
+
+    }
+    void CreateNuevaCompra()
+    {
+        NavigationManager.NavigateTo("/compra");
+    }
+
+}
